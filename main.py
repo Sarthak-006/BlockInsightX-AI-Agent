@@ -16,18 +16,60 @@ from collections import defaultdict
 # Load environment variables
 load_dotenv()
 
+# Debug information - will be displayed in the app
+st.sidebar.markdown("### Debug Information")
+st.sidebar.markdown("This section helps diagnose API key issues")
+st.sidebar.markdown("- Env API key exists: " + ("✅" if os.getenv("GROQ_API_KEY") else "❌"))
+try:
+    st.sidebar.markdown("- Secrets exist: " + ("✅" if hasattr(st, "secrets") else "❌"))
+    if hasattr(st, "secrets"):
+        st.sidebar.markdown("- 'groq' in secrets: " + ("✅" if 'groq' in st.secrets else "❌"))
+        if 'groq' in st.secrets:
+            st.sidebar.markdown("- 'api_key' in groq secrets: " + ("✅" if 'api_key' in st.secrets['groq'] else "❌"))
+except Exception as e:
+    st.sidebar.markdown(f"- Error checking secrets: {str(e)}")
+
 # Initialize Groq client - try to get API key from multiple sources
 groq_api_key = os.getenv("GROQ_API_KEY")
+
 # If not found in environment, try to get from Streamlit secrets
-if not groq_api_key and 'groq' in st.secrets:
-    groq_api_key = st.secrets["groq"]["api_key"]
+if not groq_api_key:
+    try:
+        if 'groq' in st.secrets and 'api_key' in st.secrets['groq']:
+            groq_api_key = st.secrets['groq']['api_key']
+    except Exception as e:
+        st.error(f"Error accessing secrets: {str(e)}")
 
 # Initialize the client if we have the API key
 if groq_api_key:
-    client = groq.Client(api_key=groq_api_key)
+    try:
+        client = groq.Client(api_key=groq_api_key)
+        st.sidebar.markdown("- Groq client initialized: ✅")
+    except Exception as e:
+        st.error(f"❌ Failed to initialize Groq client: {str(e)}")
+        st.stop()
 else:
-    st.error("❌ GROQ API key not found. Please set it in your .env file locally or in the Streamlit Cloud secrets.")
-    st.stop()
+    # Create a mock client for development/testing
+    class MockGroqClient:
+        def __init__(self):
+            self.chat = type('', (), {})()
+            self.chat.completions = type('', (), {})()
+            
+        def chat_completions_create(self, *args, **kwargs):
+            class Choice:
+                def __init__(self):
+                    self.message = type('', (), {})()
+                    self.message.content = "This is a mock response. The Groq API key is not configured."
+            
+            class MockCompletion:
+                def __init__(self):
+                    self.choices = [Choice()]
+            
+            return MockCompletion()
+            
+    client = MockGroqClient()
+    client.chat.completions.create = client.chat_completions_create
+    st.warning("⚠️ Using mock Groq client. Set GROQ_API_KEY in environment or secrets for full functionality.")
 
 # MultiversX API endpoints
 MULTIVERSX_API = "https://api.multiversx.com"
