@@ -16,8 +16,18 @@ from collections import defaultdict
 # Load environment variables
 load_dotenv()
 
-# Initialize Groq client
-client = groq.Client(api_key=os.getenv("GROQ_API_KEY"))
+# Initialize Groq client - try to get API key from multiple sources
+groq_api_key = os.getenv("GROQ_API_KEY")
+# If not found in environment, try to get from Streamlit secrets
+if not groq_api_key and 'groq' in st.secrets:
+    groq_api_key = st.secrets["groq"]["api_key"]
+
+# Initialize the client if we have the API key
+if groq_api_key:
+    client = groq.Client(api_key=groq_api_key)
+else:
+    st.error("❌ GROQ API key not found. Please set it in your .env file locally or in the Streamlit Cloud secrets.")
+    st.stop()
 
 # MultiversX API endpoints
 MULTIVERSX_API = "https://api.multiversx.com"
