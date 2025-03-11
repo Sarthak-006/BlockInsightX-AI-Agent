@@ -1,96 +1,75 @@
-# BlockInsight X - AI Agent
+Here's a detailed description of BlockInsight X in markdown format:
+BlockInsight X - AI-Powered MultiversX Analytics Platform
+Overview
+BlockInsight X is a sophisticated blockchain analytics platform built specifically for the MultiversX blockchain, developed as part of the AI MegaWave Hackathon. The platform leverages AI (powered by Groq) to provide deep insights into blockchain transactions, market trends, and network health.
+Live Demo
+🔗 BlockInsight X Live Demo
+Core Features
+1. Transaction Analysis
+Real-time transaction analysis with AI insights
+Double-spend risk detection
+Cryptographic verification
+Transaction pattern recognition
+Detailed metrics and visualizations
+2. Market Insights
+AI-powered market trend analysis
+Token economics evaluation
+Network value estimation
+Price history visualization
+Token velocity and utility metrics
+3. Network Statistics
+Real-time blockchain metrics
+Consensus health monitoring
+Validator distribution analysis
+Block production patterns
+Network activity metrics
+4. Satoshi's Dashboard
+Nakamoto coefficient tracking
+Centralization risk assessment
+Economic incentive analysis
+Token velocity analysis
+Staking economics visualization
+Transaction pattern analysis with Gini coefficient
+Technical Stack
+Frontend
+Streamlit for the web interface
+Plotly for interactive data visualization
+Custom CSS for modern UI/UX
+Backend
+Groq API for AI analysis (rate-limited to 5000 tokens/minute)
+MultiversX SDK for blockchain interaction
+Python backend with optimized data processing
+Key Libraries
 
-An AI-powered analytics platform for the MultiversX blockchain, bringing Satoshi's vision to blockchain analysis for the AI MegaWave Hackathon.
+streamlit==1.31.1
 
-## Features
+groq==0.4.2
 
-- Transaction Analysis with AI insights
-- Market Analysis and Predictions
-- Network Statistics Visualization
-- Real-time data from MultiversX blockchain
-- Rate limit optimized for Groq API
-- **Satoshi's Dashboard** with cryptoeconomic analysis
+multiversx-sdk-core==0.7.1
 
-## Satoshi-Inspired Analysis
+pandas==2.2.1
 
-This agent implements core blockchain principles pioneered by Satoshi Nakamoto:
+numpy==1.26.4
 
-- **Consensus Health Analysis**: Measure centralization risk with Nakamoto coefficient
-- **Double-Spend Detection**: Analyze transaction patterns to identify potential double-spend attempts
-- **Cryptographic Verification**: Validate transaction signatures and merkle proofs
-- **Token Velocity Analysis**: Evaluate if the token functions as store-of-value or medium-of-exchange
-- **Economic Incentive Modeling**: Assess staking equilibrium and utility-to-speculation ratio
-- **Contract Security Auditing**: Identify potential vulnerabilities in smart contracts
+plotly==5.19.0
 
-## Setup for Local Development
-
-1. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-2. Create a `.env` file and add your Groq API key:
-```
-GROQ_API_KEY=your_groq_api_key_here
-```
-
-3. Run the application locally:
-```bash
-streamlit run main.py
-```
-
-## Deploying to Streamlit Cloud
-
-1. Push your code to a GitHub repository
-
-2. Go to [Streamlit Cloud](https://streamlit.io/cloud) and sign in with your GitHub account
-
-3. Click "New app" and select your repository, branch, and main file path (`main.py`)
-
-4. In the "Advanced settings" section, add your secrets:
-   - Click on "Secrets"
-   - Add the following configuration:
-   ```toml
-   [groq]
-   api_key = "your_groq_api_key_here"
-   ```
-
-5. Click "Deploy"
-
-Make sure your repository includes these files:
-- `main.py` - Main application
-- `requirements.txt` - Dependencies
-- `.gitignore` - To avoid committing sensitive files
-
-Note: Never commit your `.env` file or `.streamlit/secrets.toml` file to your repository.
-
-## Usage
-
-1. Select analysis type from the sidebar
-2. For Transaction Analysis: Enter a transaction hash
-3. For Market Insights: View AI-generated market analysis and trends
-4. For Network Stats: Monitor real-time network statistics
-5. For Satoshi's Dashboard: See comprehensive blockchain health metrics
-
-## Rate Limit Optimizations
-
-This application includes several optimizations to handle Groq API rate limits:
-
-- Uses smaller LLM model (llama3-8b-8192) with more efficient token usage
-- Selectively extracts important data to reduce token consumption
-- Implements time-based request throttling
-- Handles rate limit errors gracefully with automatic retries
-- Provides user feedback during rate limit delays
-- Compresses prompts and responses to stay within the 5000 tokens/minute limit
-
-## Technologies Used
-
-- Streamlit for UI
-- Groq for AI analysis with rate limit handling
-- MultiversX SDK for blockchain interaction
-- Plotly for data visualization
-- Advanced cryptoeconomic models for blockchain health analysis
-
-## Contributing
-
-This project is part of the MultiversX AI MegaWave Hackathon. Feel free to submit issues and enhancement requests. 
+Unique Features
+AI Integration
+Uses Groq's LLM (llama3-8b-8192) for analysis
+Smart rate limiting and token optimization
+Contextual insights for transactions and market data
+Satoshi-Inspired Analytics
+Implementation of core blockchain principles
+Focus on decentralization metrics
+Economic incentive modeling
+Trust minimization analysis
+Performance Optimizations
+Efficient data extraction and processing
+Rate limit handling with automatic retries
+User feedback during processing delays
+Compressed prompts and responses
+Source Code
+🔗 GitHub Repository
+Development Status
+Active development as part of the MultiversX AI MegaWave Hackathon. The platform is fully functional and deployed on Streamlit Cloud.
+Source: Project GitHub Repository and Live Demo
